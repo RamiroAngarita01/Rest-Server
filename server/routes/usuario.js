@@ -10,7 +10,7 @@ app.get('/usuario', function (req, res) {
     let limite = req.query.limite || 5;
     limite= Number(limite);
    //->>Podemos agregar una condicion ejemplo {google:true} y agregarlo en el count
-   Usuario.find({estado:true},'nombre email estado google img') 
+   Usuario.find({estado:true},'nombre email  estado google img') 
    .skip(desde)
    .limit(limite)
    .exec((err,usuarios)=>{
