@@ -1,5 +1,7 @@
 require('./config/config');
 const express = require('express');
+const mongoose = require('mongoose');
+const usuario = require('./routes/usuario');
 const bodyParser = require('body-parser')
 
 const app = express();
@@ -9,45 +11,14 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-//Metodo get del objeto app expres
-app.get('/usuario', function (req, res) {
-    res.json('get usuario')
-})
-//Metodo post del objeto app expres
-app.post('/usuario', function (req, res) {
-let body = req.body;
-    if(body.nombre == undefined){
-        res.status(400).json({
-            ok:false,
-            message:'El nombre es requerido',
-            
-        })
-    }else{
-        res.json({
-            "persona": body
-            })
-    }
-  
-})
-//Metodo put del objeto app expres
-app.put('/usuario/:id', function (req, res) {
-    let id = req.params.id;
-    res.json({id})
-}) 
-//Metodo delete del objeto app expres
-app.delete('/usuario/:id',function(req,res){
-    res.json('delete usuario')
-})
+app.use(require('./routes/usuario'));
 
-
-
-
-
-
-
-
-
-
+//Conexion de mongoose
+mongoose.connect(process.env.urlDB,{useNewUrlParser: true, useCreateIndex: true},(err,res)=>{
+if(err)
+ throw err,'Error de conexion';
+console.log('Base de datos online');
+});
 
 //puerto donde se ejecuta el localhost
 app.listen(process.env.PORT,()=>{
