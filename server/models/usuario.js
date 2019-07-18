@@ -11,8 +11,6 @@ let Schema = mongoose.Schema;
 let usuarioSchema = new Schema({
     nombre:{
         type:String,
-        unique:true,
-        type: String,
     },email:{
         type:String,
         unique:true,
