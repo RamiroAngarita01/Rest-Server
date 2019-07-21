@@ -39,8 +39,8 @@ usuarioSchema.methods.toJSON = function(){
     let userObject = user.toObject();
     delete userObject.password;
     return userObject;
-  
 }
+
 //Validar en el esquema los campos unicos y enviar un mensaje amigable
 usuarioSchema.plugin(uniqueValidator, {message:'{PATH} debe ser unico'});
 module.exports = mongoose.model('Usuario',usuarioSchema);

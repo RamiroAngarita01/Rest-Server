@@ -8,9 +8,10 @@ const app = express();
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
-app.use(require('./routes/usuario'));
+//configuracion global de las rutas
+app.use(require('./routes/index'));
 
 //Conexion de mongoose
 mongoose.connect(process.env.urlDB,{useNewUrlParser: true, useCreateIndex: true},(err,res)=>{
