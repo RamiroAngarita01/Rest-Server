@@ -2,9 +2,12 @@ const express = require('express');
 const Usuario = require('../models/usuario');
 const bcrypt =require('bcrypt');
 const _ = require('underscore');
+const  {verificaToken,verificaAdmin_Role} = require('../middlewares/autenticacion');
 const app = express();
+
 //Metodo get del objeto app expres
-app.get('/usuario', function (req, res) {
+app.get('/usuario',[verificaToken,verificaAdmin_Role],(req, res)=> {
+
     let desde = req.query.desde || 0; //si no viene la variable que venga desde la pagina 1
     desde = Number(desde);
     let limite = req.query.limite || 5;
@@ -36,7 +39,7 @@ app.get('/usuario', function (req, res) {
    })
 })
 //Metodo post del objeto app expres
-app.post('/usuario', function (req, res) {
+app.post('/usuario', verificaToken, (req, res)=> {
 let body = req.body;
 
 //creamos un objeto Usuario y le enviamnos la informacion del body
@@ -59,7 +62,7 @@ let usuario = new Usuario({
         });
 })
 //Metodo put del objeto app expres
-app.put('/usuario/:id', function (req, res) {
+app.put('/usuario/:id', verificaToken, (req, res)=> {
     let id = req.params.id;
     //el metodo pick de underscore se usa para definir los campos que se quieren actualizar
     let body = _.pick(req.body,['nombre','email','img','role','estado']);
@@ -79,7 +82,7 @@ app.put('/usuario/:id', function (req, res) {
  
 }) 
 //Metodo delete del objeto app expres
-app.delete('/usuario/:id',function(req,res){
+app.delete('/usuario/:id', verificaToken,(req,res)=>{
    let id = req.params.id;
 //    Usuario.findByIdAndRemove(id,(err,usuarioBorrado)=>{
 //        if(err){
